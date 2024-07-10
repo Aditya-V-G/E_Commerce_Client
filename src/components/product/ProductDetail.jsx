@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import AppContext from "../../context/AppContext"; // Adjust the path as needed
 import RelatedProduct from "./RelatedProduct";
 
 const ProductDetail = () => {
+  const navigate = useNavigate();
   const [product, setProduct] = useState();
   const { id } = useParams();
   // const url = "http://localhost:1000/api";
@@ -49,15 +50,37 @@ const ProductDetail = () => {
         </div>
         <div className="right">
           <h1>{product?.title}</h1>
-          <p>{product?.description}</p>
+          <p
+            style={{
+              fontSize: "20px",
+              color: "white",
+              lineHeight: "1.5",
+              marginTop: "35px",
+              marginBottom: "35px",
+              marginLeft: "35px",
+            }}
+          >
+            {product?.description}
+          </p>
+
           <h1>₹ {product?.price}</h1>
           <div className="my-5">
-            <button
+            <Link
               className="btn btn-danger mx-3"
+              to={"/cart"}
               style={{ fontWeight: "bold" }}
+              onClick={() =>
+                addToCart(
+                  product._id,
+                  product.title,
+                  product.price,
+                  1,
+                  product.imgSrc
+                )
+              }
             >
               Buy Now
-            </button>
+            </Link>
             <button
               className="btn btn-warning"
               onClick={() =>
